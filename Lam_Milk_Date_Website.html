@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Lam ♥ Milk — Date Invitation</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",sans-serif;background:linear-gradient(135deg,#fff0f6,#ffe1ed);color:#54233b;min-height:100vh}
+.page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.card{width:min(430px,100%);min-height:650px;background:rgba(255,255,255,.88);border-radius:30px;padding:28px 22px;box-shadow:0 18px 50px rgba(150,40,90,.18);position:relative;overflow:hidden}
+h1{font-size:30px;text-align:center;margin:12px 0 4px}
+h2{font-size:23px;text-align:center;margin:10px 0}
+.sub{text-align:center;color:#9b637b;margin:0 0 22px}
+.logo{text-align:center;font-size:18px;font-weight:700;color:#ef4f88}
+.heart{color:#ff4f88}
+button{border:0;border-radius:999px;padding:15px 22px;font-size:17px;font-weight:700;cursor:pointer}
+.primary{background:#ff4f88;color:white;box-shadow:0 8px 20px rgba(255,79,136,.28)}
+.secondary{background:#fff;border:2px solid #eee;color:#54233b}
+.actions{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:28px;min-height:80px}
+#noBtn{position:relative;z-index:3}
+#yesBtn{transition:.25s transform}
+.emoji{font-size:82px;text-align:center;margin:45px 0 15px}
+.hidden{display:none!important}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+.food{background:#fff;border:2px solid #f3dce6;border-radius:18px;padding:18px 8px;font-size:16px;color:#54233b}
+.food.selected{border-color:#ff4f88;background:#fff0f6}
+.datebox{width:100%;padding:15px;border:2px solid #f1d9e4;border-radius:16px;font-size:18px;margin:18px 0;background:#fff;color:#54233b}
+.letter{background:#fffaf5;border-radius:20px;padding:24px;line-height:1.9;box-shadow:inset 0 0 0 1px #f4dfcf;margin-top:18px}
+.footer{text-align:center;color:#a86d84;font-size:13px;margin-top:20px}
+.small{font-size:13px;color:#a86d84;text-align:center;margin-top:12px}
+.back{background:none;color:#c35c80;font-size:14px;padding:8px}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="card">
+
+<div id="screen1">
+  <div class="logo">Lam <span class="heart">♥</span> Milk</div>
+  <div class="emoji">🥰</div>
+  <h1>要不要跟我去约会？</h1>
+  <p class="sub">ไปเดตกับเค้าไหม? 💕</p>
+  <div class="actions">
+    <button id="yesBtn" class="primary" onclick="go(2)">好哦 ♥<br><small>ได้เลย ♥</small></button>
+    <button id="noBtn" class="secondary" onclick="runAway()">No</button>
+  </div>
+  <p class="small">每次靠近 No，它都会偷偷逃跑哦 😂</p>
+</div>
+
+<div id="screen2" class="hidden">
+  <div class="logo">Lam <span class="heart">♥</span> Milk</div>
+  <h2>选择我们的约会日期 📅</h2>
+  <p class="sub">เลือกวันที่เราจะไปเดตกันนะ</p>
+  <input id="date" class="datebox" type="date">
+  <button class="primary" style="width:100%" onclick="saveDate()">就这天！ ♥<br><small>วันนี้แหละ! ♥</small></button>
+</div>
+
+<div id="screen3" class="hidden">
+  <div class="logo">Lam <span class="heart">♥</span> Milk</div>
+  <h2>今天想和我一起吃什么？ 🍜</h2>
+  <p class="sub">วันนี้อยากกินอะไรกับเค้า?</p>
+  <div class="grid">
+    <button class="food" onclick="chooseFood(this,'火锅 / หมูกระทะ')">🥘<br>火锅<br><small>หมูกระทะ</small></button>
+    <button class="food" onclick="chooseFood(this,'牛肉面 / ก๋วยเตี๋ยวเนื้อ')">🍜<br>牛肉面<br><small>ก๋วยเตี๋ยวเนื้อ</small></button>
+    <button class="food" onclick="chooseFood(this,'卤肉饭 / ข้าวหมูพะโล้')">🍚<br>卤肉饭<br><small>ข้าวหมูพะโล้</small></button>
+    <button class="food" onclick="chooseFood(this,'夜市小吃 / ของกินตลาดกลางคืน')">🌃<br>夜市小吃<br><small>ของกินตลาดกลางคืน</small></button>
+    <button class="food" onclick="chooseFood(this,'烤肉 / ปิ้งย่าง')">🥩<br>烤肉<br><small>ปิ้งย่าง</small></button>
+    <button class="food" onclick="chooseFood(this,'拉面 / ราเมง')">🍜<br>拉面<br><small>ราเมง</small></button>
+  </div>
+  <button id="foodNext" class="primary hidden" style="width:100%;margin-top:22px" onclick="go(4)">选好了 ♥</button>
+</div>
+
+<div id="screen4" class="hidden">
+  <div class="logo">Lam <span class="heart">♥</span> Milk</div>
+  <h2>写给 Milk 的一封信 💌</h2>
+  <div class="letter">
+    亲爱的 Milk：<br><br>
+    谢谢你出现在我的生活里。<br>
+    我想和你一起吃很多顿饭，去很多地方，<br>
+    也想把平凡的日子过成我们自己的回忆。<br><br>
+    以后不管遇到什么事情，<br>
+    我都希望我们可以牵着手，一起面对。<br>
+    我不需要每一天都很完美，<br>
+    只希望那一天结束的时候，身边的人还是你。<br><br>
+    我爱你 ❤️<br>
+    — Lam
+    <hr>
+    <span style="color:#a15f78">ที่รัก Milk:<br><br>
+    ขอบคุณที่เข้ามาในชีวิตของเค้า<br>
+    เค้าอยากมีมื้ออาหารดีๆ และความทรงจำดีๆ กับเธออีกมากมาย<br>
+    ไม่ว่าวันข้างหน้าจะเจออะไร<br>
+    เค้าก็อยากจับมือเธอแล้วเดินไปด้วยกันนะ ❤️<br><br>
+    รักเธอเสมอ<br>— Lam</span>
+  </div>
+  <button class="primary" style="width:100%;margin-top:20px" onclick="restart()">再看一次 ♥<br><small>อ่านอีกครั้ง ♥</small></button>
+</div>
+
+<div class="footer">Made with love by Lam ♥</div>
+</div>
+</div>
+
+<script>
+let yesScale=1, selectedFood="", selectedDate="";
+function show(n){
+  for(let i=1;i<=4;i++) document.getElementById("screen"+i).classList.toggle("hidden",i!==n);
+}
+function go(n){show(n)}
+function runAway(){
+  const b=document.getElementById("noBtn"), card=document.querySelector(".card");
+  yesScale=Math.min(2.25,yesScale+.18);
+  document.getElementById("yesBtn").style.transform=`scale(${yesScale})`;
+  const maxX=Math.max(20,card.clientWidth-b.offsetWidth-30);
+  const maxY=Math.max(80,card.clientHeight-b.offsetHeight-30);
+  b.style.position="absolute";
+  b.style.left=(20+Math.random()*maxX)+"px";
+  b.style.top=(70+Math.random()*Math.min(maxY,card.clientHeight-140))+"px";
+}
+document.getElementById("noBtn").addEventListener("mouseenter",runAway);
+document.getElementById("noBtn").addEventListener("touchstart",e=>{e.preventDefault();runAway()},{passive:false});
+function saveDate(){
+  const d=document.getElementById("date").value;
+  if(!d){alert("先选一个日期哦 ❤️");return}
+  selectedDate=d; show(3);
+}
+function chooseFood(btn,food){
+  document.querySelectorAll(".food").forEach(x=>x.classList.remove("selected"));
+  btn.classList.add("selected"); selectedFood=food;
+  document.getElementById("foodNext").classList.remove("hidden");
+}
+function restart(){
+  yesScale=1; selectedFood=""; selectedDate="";
+  document.getElementById("yesBtn").style.transform="scale(1)";
+  const b=document.getElementById("noBtn");
+  b.style.position="relative"; b.style.left=""; b.style.top="";
+  document.getElementById("date").value="";
+  document.querySelectorAll(".food").forEach(x=>x.classList.remove("selected"));
+  document.getElementById("foodNext").classList.add("hidden");
+  show(1);
+}
+</script>
+</body>
+</html>
